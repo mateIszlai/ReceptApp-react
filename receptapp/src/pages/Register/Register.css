@@ -5,7 +5,7 @@
 .textfield-container {
     margin: 20px;
 }
-h4 {
+#register-success-message {
     text-align: center;
     margin-top: 20px;
 }
