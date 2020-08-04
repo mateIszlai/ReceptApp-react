@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { TextField, Box, Button } from "@material-ui/core";
 import axios from "../../axios/axios";
 import "./Register.css";
 
 export default function Register() {
     const [userName, setUserName] = useState("");
+    const [userNameError, setUserNameError] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
@@ -13,21 +14,32 @@ export default function Register() {
     const [success, setSuccess] = useState(false);
 
     const tryRegister = () => {
-        axios
-            .post("/register", {
-                firstName,
-                lastName,
-                nickName,
-                userName,
-                email,
-                password,
-            })
-            .then((response) => {
-                console.log(response);
-                if (response.status === 201) setSuccess(true);
-            })
-            .catch((err) => console.log(err));
+        let valid = userNameError.length === 0;
+        if (valid) {
+            axios
+                .post("/register", {
+                    firstName,
+                    lastName,
+                    nickName,
+                    userName,
+                    email,
+                    password,
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 201) setSuccess(true);
+                })
+                .catch((err) => console.log(err));
+        }
     };
+
+    useEffect(
+        () =>
+            userName.length < 4
+                ? setUserNameError("Username has to be at least 4 characters")
+                : setUserNameError(""),
+        [userName]
+    );
 
     return success ? (
         <Fragment>
@@ -87,6 +99,7 @@ export default function Register() {
                             onFocus={(e) => {
                                 setUserName(e.target.value);
                             }}
+                            helperText={userNameError}
                         />
                     </Box>
                     <Box className="textfield-container">
