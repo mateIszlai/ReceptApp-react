@@ -10,13 +10,17 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nickName, setNickName] = useState("");
     const [success, setSuccess] = useState(false);
 
     const tryRegister = () => {
-        let valid = userNameError.length === 0 && emailError.length === 0;
+        let valid =
+            userNameError.length === 0 &&
+            emailError.length === 0 &&
+            passwordError.length === 0;
         if (valid) {
             axios
                 .post("/register", {
@@ -35,6 +39,7 @@ export default function Register() {
         }
     };
 
+    // validate username
     useEffect(
         () =>
             userName.length < 4
@@ -43,11 +48,27 @@ export default function Register() {
         [userName]
     );
 
+    // validate email
     useEffect(() => {
         emailValidator.validate(email)
             ? setEmailError("")
             : setEmailError("Has to be a valid email address");
     }, [email]);
+
+    // validate password
+    useEffect(() => {
+        if (password.length < 8) {
+            setPasswordError("Password has to be at least 8 character");
+        } else if (!/[A-Z]/.test(password)) {
+            setPasswordError(
+                "Password must contains at least one uppercase letter"
+            );
+        } else if (!/\d/.test(password)) {
+            setPasswordError("Password should contains at least one digit");
+        } else {
+            setPasswordError("");
+        }
+    }, [password]);
 
     return success ? (
         <Fragment>
@@ -142,6 +163,7 @@ export default function Register() {
                             onFocus={(e) => {
                                 setPassword(e.target.value);
                             }}
+                            helperText={passwordError}
                         />
                     </Box>
                     <Box>
