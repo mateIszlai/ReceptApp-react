@@ -5,6 +5,7 @@ import { Container } from "@material-ui/core";
 import history from "./history";
 import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
+import Register from "./pages/Register/Register";
 
 function App(props) {
     return (
@@ -13,6 +14,7 @@ function App(props) {
                 <Container>
                     <Switch>
                         <Route path="/" exact component={Home} />
+                        <Route path="/register" exact component={Register} />
                     </Switch>
                 </Container>
             </Router>
