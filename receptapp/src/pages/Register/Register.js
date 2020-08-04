@@ -2,11 +2,13 @@ import React, { Fragment, useState, useEffect } from "react";
 import { TextField, Box, Button } from "@material-ui/core";
 import axios from "../../axios/axios";
 import "./Register.css";
+import emailValidator from "email-validator";
 
 export default function Register() {
     const [userName, setUserName] = useState("");
     const [userNameError, setUserNameError] = useState("");
     const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -14,7 +16,7 @@ export default function Register() {
     const [success, setSuccess] = useState(false);
 
     const tryRegister = () => {
-        let valid = userNameError.length === 0;
+        let valid = userNameError.length === 0 && emailError.length === 0;
         if (valid) {
             axios
                 .post("/register", {
@@ -41,9 +43,15 @@ export default function Register() {
         [userName]
     );
 
+    useEffect(() => {
+        emailValidator.validate(email)
+            ? setEmailError("")
+            : setEmailError("Has to be a valid email address");
+    }, [email]);
+
     return success ? (
         <Fragment>
-            <h4>You registered successfully!</h4>
+            <h4 id="register-success-message">You registered successfully!</h4>
         </Fragment>
     ) : (
         <Fragment>
@@ -116,6 +124,7 @@ export default function Register() {
                             onFocus={(e) => {
                                 setEmail(e.target.value);
                             }}
+                            helperText={emailError}
                         />
                     </Box>
                     <Box className="textfield-container">
