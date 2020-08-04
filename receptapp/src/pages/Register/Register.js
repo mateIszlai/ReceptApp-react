@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { TextField, Box, Button } from "@material-ui/core";
 import axios from "../../axios/axios";
+import "./Register.css";
 
 export default function Register() {
     const [userName, setUserName] = useState("");
@@ -9,6 +10,7 @@ export default function Register() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [nickName, setNickName] = useState("");
+    const [success, setSuccess] = useState(false);
 
     const tryRegister = () => {
         axios
@@ -22,10 +24,16 @@ export default function Register() {
             })
             .then((response) => {
                 console.log(response);
-            });
+                if (response.status === 201) setSuccess(true);
+            })
+            .catch((err) => console.log(err));
     };
 
-    return (
+    return success ? (
+        <Fragment>
+            <h4>You registered successfully!</h4>
+        </Fragment>
+    ) : (
         <Fragment>
             <div className="page-container">
                 <form noValidate autoComplete="off">
