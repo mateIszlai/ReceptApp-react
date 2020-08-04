@@ -15,28 +15,23 @@ export default function Register() {
     const [lastName, setLastName] = useState("");
     const [nickName, setNickName] = useState("");
     const [success, setSuccess] = useState(false);
+    const [valid, setValid] = useState(false);
 
     const tryRegister = () => {
-        let valid =
-            userNameError.length === 0 &&
-            emailError.length === 0 &&
-            passwordError.length === 0;
-        if (valid) {
-            axios
-                .post("/register", {
-                    firstName,
-                    lastName,
-                    nickName,
-                    userName,
-                    email,
-                    password,
-                })
-                .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) setSuccess(true);
-                })
-                .catch((err) => console.log(err));
-        }
+        axios
+            .post("/register", {
+                firstName,
+                lastName,
+                nickName,
+                userName,
+                email,
+                password,
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.status === 201) setSuccess(true);
+            })
+            .catch((err) => console.log(err));
     };
 
     // validate username
@@ -69,6 +64,15 @@ export default function Register() {
             setPasswordError("");
         }
     }, [password]);
+
+    useEffect(() => {
+        setValid(
+            userNameError.length === 0 &&
+                emailError.length === 0 &&
+                passwordError.length === 0
+        );
+        console.log(valid);
+    }, [emailError, passwordError, userNameError, valid]);
 
     return success ? (
         <Fragment>
@@ -170,6 +174,7 @@ export default function Register() {
                         <Button
                             variant="contained"
                             className="register-btn"
+                            disabled={!valid}
                             onClick={tryRegister}
                         >
                             Register
