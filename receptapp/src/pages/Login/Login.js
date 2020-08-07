@@ -1,12 +1,28 @@
-import React, { Fragment } from 'react'
-import { TextField } from '@material-ui/core'
+import React, { Fragment, useState, useEffect } from "react";
+import { Box, TextField } from "@material-ui/core";
 
 export default function Login() {
-    return (
-        <Fragment>
-            <div className="page-container">
+  const [userName, setUserName] = useState("");
 
-            </div>
-        </Fragment>
-    )
+  return (
+    <Fragment>
+      <div className="page-container">
+        <form novalidate autoComplete="off">
+          <Box className="textfield-container">
+            <TextField
+              className="textfield"
+              id="username-input"
+              autoComplete="off"
+              label="Username"
+              variant="outlined"
+              required
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
+            />
+          </Box>
+        </form>
+      </div>
+    </Fragment>
+  );
 }
