@@ -3,6 +3,7 @@ import { Box, TextField } from "@material-ui/core";
 
 export default function Login() {
   const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <Fragment>
@@ -18,6 +19,20 @@ export default function Login() {
               required
               onChange={(e) => {
                 setUserName(e.target.value);
+              }}
+            />
+          </Box>
+          <Box className="textfield-container">
+            <TextField
+              className="textfield"
+              id="password-input"
+              autoComplete="off"
+              label="Password"
+              variant="outlined"
+              required
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
               }}
             />
           </Box>
