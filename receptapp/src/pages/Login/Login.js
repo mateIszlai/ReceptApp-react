@@ -2,6 +2,7 @@ import React, { Fragment, useState, useContext } from "react";
 import { Box, TextField, Button } from "@material-ui/core";
 import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
+import "./Login.css";
 
 export default function Login() {
   const USER_NAME = 1;
@@ -9,6 +10,7 @@ export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
+  const [success, setSuccess] = useState("false");
 
   const tryLogin = () => {
     axios
@@ -25,12 +27,17 @@ export default function Login() {
             loggedIn: true,
           });
           console.log(user);
+          setSuccess(true);
         }
       })
       .catch((error) => console.log(error));
   };
 
-  return (
+  return success ? (
+    <Fragment>
+      <h4 id="login-success-message">You logged in successfully!</h4>
+    </Fragment>
+  ) : (
     <Fragment>
       <div className="page-container">
         <form noValidate autoComplete="off">
