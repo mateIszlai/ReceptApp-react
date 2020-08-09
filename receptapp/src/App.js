@@ -7,6 +7,7 @@ import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import { UserProvider } from "./context/USerContext";
+import Login from "./pages/Login/Login";
 
 function App(props) {
   return (
@@ -17,6 +18,7 @@ function App(props) {
             <UserProvider>
               <Route path="/" exact component={Home} />
               <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
             </UserProvider>
           </Switch>
         </Container>
