@@ -6,7 +6,7 @@ import history from "./history";
 import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
-import { UserProvider } from "./context/USerContext";
+import UserProvider from "./context/UserContext";
 import Login from "./pages/Login/Login";
 
 function App(props) {
