@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import { Box, TextField, Button } from "@material-ui/core";
-import { UserContext } from "../../context/USerContext";
+import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
 
 export default function Login() {
@@ -8,7 +8,7 @@ export default function Login() {
   const USER_ID = 0;
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [setUser] = useContext(UserContext)[1];
+  const [user, setUser] = useContext(UserContext);
 
   const tryLogin = () => {
     axios
@@ -19,12 +19,12 @@ export default function Login() {
       .then((response) => {
         if (response.status === 200) {
           console.log("Logged in!");
-          console.log(response);
           setUser({
             userName: response.data[USER_NAME],
             userId: response.data[USER_ID],
             loggedIn: true,
           });
+          console.log(user);
         }
       })
       .catch((error) => console.log(error));
@@ -33,7 +33,7 @@ export default function Login() {
   return (
     <Fragment>
       <div className="page-container">
-        <form novalidate autoComplete="off">
+        <form noValidate autoComplete="off">
           <Box className="textfield-container">
             <TextField
               className="textfield"
