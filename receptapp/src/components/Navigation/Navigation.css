@@ -1,0 +1,22 @@
+nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: black;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-links li {
+  list-style: none;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}
+.link-wrapper {
+  margin: 20px;
+}
