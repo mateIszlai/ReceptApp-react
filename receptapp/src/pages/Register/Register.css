@@ -1,0 +1,14 @@
+.page-container {
+    text-align: center;
+}
+
+.textfield-container {
+    margin: 20px;
+}
+#register-success-message {
+    text-align: center;
+    margin-top: 20px;
+}
+.textfield {
+    width: 300px;
+}

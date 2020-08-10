@@ -3,23 +3,30 @@ import "./App.css";
 import { Router } from "react-router";
 import { Container } from "@material-ui/core";
 import history from "./history";
-import Header from "./layout/Header";
 import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
+import Register from "./pages/Register/Register";
+import UserProvider from "./context/UserContext";
+import Login from "./pages/Login/Login";
+import Logout from "./pages/Logout/Logout";
 
 function App(props) {
-    return (
-        <div className="App">
-            <Router history={history}>
-                <Header />
-                <Container>
-                    <Switch>
-                        <Route path="/" exact component={Home} />
-                    </Switch>
-                </Container>
-            </Router>
-        </div>
-    );
+  return (
+    <div className="App">
+      <Router history={history}>
+        <Container>
+          <Switch>
+            <UserProvider>
+              <Route path="/" exact component={Home} />
+              <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
+              <Route path="/logout" exact component={Logout} />
+            </UserProvider>
+          </Switch>
+        </Container>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
