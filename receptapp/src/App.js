@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home";
 import Register from "./pages/Register/Register";
 import UserProvider from "./context/UserContext";
 import Login from "./pages/Login/Login";
+import Logout from "./pages/Logout/Logout";
 
 function App(props) {
   return (
@@ -19,6 +20,7 @@ function App(props) {
               <Route path="/" exact component={Home} />
               <Route path="/register" exact component={Register} />
               <Route path="/login" exact component={Login} />
+              <Route path="/logout" exact component={Logout} />
             </UserProvider>
           </Switch>
         </Container>
