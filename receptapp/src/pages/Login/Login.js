@@ -9,8 +9,8 @@ export default function Login() {
   const USER_ID = 0;
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useContext(UserContext);
-  const [success, setSuccess] = useState("false");
+  const setUser = useContext(UserContext)[1];
+  const [success, setSuccess] = useState(false);
 
   const tryLogin = () => {
     axios
@@ -26,7 +26,6 @@ export default function Login() {
             userId: response.data[USER_ID],
             loggedIn: true,
           });
-          console.log(user);
           setSuccess(true);
         }
       })
