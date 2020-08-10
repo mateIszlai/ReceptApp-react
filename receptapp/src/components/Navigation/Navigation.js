@@ -1,20 +1,20 @@
 import React, { Fragment, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import HomeIcon from "@material-ui/icons/Home";
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { UserContext } from "../../context/UserContext";
+import "./Navigation.css";
 
 export default function Navigation() {
   const user = useContext(UserContext)[0];
   return (
     <nav>
-      <div className="logo"></div>
       <ul className="nav-links nav-links-left">
         <li>
           <div className="link-wrapper">
-            <NavLink activeClassName="is-active" to={"/"} exact>
+            <NavLink to={"/"} exact>
               <IconButton aria-label="nav-to-home">
-                <HomeIcon />
+                <HomeIcon style={{ color: "white" }} />
               </IconButton>
             </NavLink>
           </div>
@@ -26,14 +26,14 @@ export default function Navigation() {
             <li>
               <div className="link-wrapper">
                 <NavLink to={"/login"} exact>
-                  <Button variant="contained">Login</Button>
+                  Login
                 </NavLink>
               </div>
             </li>
             <li>
               <div className="link-wrapper">
                 <NavLink to={"/register"} exact>
-                  <Button variant="contained">Register</Button>
+                  Register
                 </NavLink>
               </div>
             </li>
@@ -43,7 +43,7 @@ export default function Navigation() {
             <li>
               <div className="link-wrapper">
                 <NavLink to={"/logout"} exact>
-                  <Button variant="contained">Logout</Button>
+                  Logout
                 </NavLink>
               </div>
             </li>
