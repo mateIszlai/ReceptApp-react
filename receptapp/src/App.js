@@ -8,6 +8,7 @@ import UserProvider from "./context/UserContext";
 import Login from "./pages/Login/Login";
 import Logout from "./pages/Logout/Logout";
 import Header from "./layout/Header";
+import AddRecipe from "./pages/AddRecipe/AddRecipe";
 
 function App(props) {
   return (
@@ -29,6 +30,7 @@ function Content() {
           <Route path="/register" exact component={Register} />
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout} />
+          <Route path="/recipes/add" exact component={AddRecipe} />
         </Switch>
       </Container>
     </Router>
