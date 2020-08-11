@@ -1,10 +1,11 @@
 import { useEffect, useContext } from "react";
 import axios from "../../axios/axios";
 import { UserContext } from "../../context/UserContext";
-import history from "../../history";
+import { useHistory } from "react-router";
 
 export default function Logout() {
   const setUser = useContext(UserContext)[1];
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -17,6 +18,6 @@ export default function Logout() {
         }
       })
       .catch((error) => console.log(error));
-  }, [setUser]);
+  }, [history, setUser]);
   return null;
 }
