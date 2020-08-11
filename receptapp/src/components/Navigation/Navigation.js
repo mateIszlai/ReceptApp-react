@@ -14,7 +14,11 @@ export default function Navigation() {
           <div className="link-wrapper">
             <NavLink to={"/"} exact>
               <IconButton aria-label="nav-to-home">
-                <HomeIcon style={{ color: "white" }} />
+                <HomeIcon
+                  id="home-icon"
+                  size="medium"
+                  style={{ color: "white" }}
+                />
               </IconButton>
             </NavLink>
           </div>
