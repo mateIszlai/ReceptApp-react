@@ -3,6 +3,7 @@ import { Box, TextField } from "@material-ui/core";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
+  const [recipeDescription, setRecipeDescription] = useState("");
 
   return (
     <Fragment>
@@ -17,6 +18,19 @@ export default function AddRecipe() {
               required
               onChange={(e) => {
                 setRecipeName(e.target.value);
+              }}
+            />
+          </Box>
+          <Box className="textfield-container">
+            <TextField
+              className="textfield"
+              id="description-input"
+              variant="outlined"
+              label=" Description"
+              required
+              multiline
+              onChange={(e) => {
+                setRecipeDescription(e.target.value);
               }}
             />
           </Box>
