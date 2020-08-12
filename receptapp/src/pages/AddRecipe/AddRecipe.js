@@ -8,8 +8,10 @@ import {
   Select,
   MenuItem,
   IconButton,
+  Button,
 } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
+import axios from "../../axios/axios";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -19,6 +21,7 @@ export default function AddRecipe() {
   const [ingredientUnit, setIngredientUnit] = useState("");
   const [validIngredient, setvalidIngredient] = useState(false);
   const [ingredients, setIngredients] = useState([]);
+  const [servings, setServings] = useState(0);
 
   useEffect(() => {
     setvalidIngredient(
@@ -119,6 +122,19 @@ export default function AddRecipe() {
               multiline
               onChange={(e) => {
                 setRecipeDescription(e.target.value);
+              }}
+            />
+          </Box>
+          <Box className="textfield-container">
+            <TextField
+              className="textfield"
+              id="servings-input"
+              variant="outlined"
+              label="Servings"
+              required
+              type="number"
+              onChange={(e) => {
+                setServings(e.target.valueAsNumber);
               }}
             />
           </Box>
