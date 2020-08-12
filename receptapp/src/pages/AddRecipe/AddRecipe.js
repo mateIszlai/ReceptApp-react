@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import axios from "../../axios/axios";
+import "./AddRecipe.css";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -76,7 +77,7 @@ export default function AddRecipe() {
 
   return (
     <Fragment>
-      <div className="page-container">
+      <div className="add-recipe-page-container">
         <form noValidate autoComplete="off">
           <Box className="textfield-container">
             <TextField
@@ -90,54 +91,61 @@ export default function AddRecipe() {
               }}
             />
           </Box>
-          <Box className="textfield-container">
+          <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
-            <List className="ingredients-list">
-              {ingredients.map((item) => (
-                <ListItem key={`item-${item.name}`}>
-                  <ListItemText>
-                    {`${item.name} ${item.quantity.amount} ${item.quantity.unit}`}
-                  </ListItemText>
-                </ListItem>
-              ))}
-            </List>
+            <Box className="list-container">
+              <List className="ingredients-list">
+                {ingredients.map((item) => (
+                  <ListItem key={`item-${item.name}`} className="list-item">
+                    <ListItemText className="list-item-text">
+                      {`${item.name}: ${item.quantity.amount} ${item.quantity.unit}`}
+                    </ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
             <Box className="textfield-with-select-container">
-              <TextField
-                className="textfield"
-                id="ingredient-name-input"
-                variant="outlined"
-                label="Ingredient name"
-                onChange={(e) => {
-                  setIngredientName(e.target.value);
-                }}
-              />
-              <TextField
-                className="textfield"
-                id="ingredient-amount-input"
-                variant="outlined"
-                label="Amount"
-                type="number"
-                onChange={(e) => setIngredientAmount(e.target.valueAsNumber)}
-              />
-              <Select
-                id="ingredient-unit-select"
-                value={ingredientUnit}
-                onChange={(e) => setIngredientUnit(e.target.value)}
-              >
-                <MenuItem value={"g"}>gram</MenuItem>
-                <MenuItem value={"dkg"}>decagram</MenuItem>
-                <MenuItem value={"kg"}>kilogram</MenuItem>
-                <MenuItem value={"tbs"}>tablespoon</MenuItem>
-                <MenuItem value={"tsp"}>teaspoon</MenuItem>
-                <MenuItem value={"pinch"}>pinch</MenuItem>
-                <MenuItem value={"l"}>liter</MenuItem>
-                <MenuItem value={"dl"}>deciliter</MenuItem>
-                <MenuItem value={"cl"}>centiliter</MenuItem>
-                <MenuItem value={"ml"}>milliliter</MenuItem>
-                <MenuItem value={"c"}>cup</MenuItem>
-              </Select>
+              <Box className="textfield-with-select">
+                <TextField
+                  id="ingredient-name-input"
+                  variant="outlined"
+                  label="Ingredient name"
+                  onChange={(e) => {
+                    setIngredientName(e.target.value);
+                  }}
+                />
+              </Box>
+              <Box className="textfield-with-select">
+                <TextField
+                  id="ingredient-amount-input"
+                  variant="outlined"
+                  label="Amount"
+                  type="number"
+                  onChange={(e) => setIngredientAmount(e.target.valueAsNumber)}
+                />
+              </Box>
+              <Box className="select-container">
+                <Select
+                  id="ingredient-unit-select"
+                  value={ingredientUnit}
+                  onChange={(e) => setIngredientUnit(e.target.value)}
+                >
+                  <MenuItem value={"g"}>gram</MenuItem>
+                  <MenuItem value={"dkg"}>decagram</MenuItem>
+                  <MenuItem value={"kg"}>kilogram</MenuItem>
+                  <MenuItem value={"tbs"}>tablespoon</MenuItem>
+                  <MenuItem value={"tsp"}>teaspoon</MenuItem>
+                  <MenuItem value={"pinch"}>pinch</MenuItem>
+                  <MenuItem value={"l"}>liter</MenuItem>
+                  <MenuItem value={"dl"}>deciliter</MenuItem>
+                  <MenuItem value={"cl"}>centiliter</MenuItem>
+                  <MenuItem value={"ml"}>milliliter</MenuItem>
+                  <MenuItem value={"c"}>cup</MenuItem>
+                </Select>
+              </Box>
               <IconButton
                 aria-label="add-ingredient"
+                size="medium"
                 disabled={!validIngredient}
                 onClick={() => {
                   let ingrs = ingredients.concat({
@@ -150,11 +158,10 @@ export default function AddRecipe() {
                   setIngredients(ingrs);
                 }}
               >
-                <AddCircleRoundedIcon id="add-icon" size="medium" />
+                <AddCircleRoundedIcon id="add-icon" fontSize="large" />
               </IconButton>
             </Box>
           </Box>
-
           <Box className="textfield-container">
             <TextField
               className="textfield"
@@ -181,71 +188,81 @@ export default function AddRecipe() {
               }}
             />
           </Box>
-          <Box className="textfield-with-select-container">
-            <TextField
-              className="textfield"
-              id="preparation-time-input"
-              variant="outlined"
-              label="Preparation time"
-              type="number"
-              onChange={(e) => {
-                setPreparationTimeAmount(e.target.valueAsNumber);
-              }}
-            />
-            <Select
-              className="time-unit-select"
-              value={preparationTimeUnit}
-              onChange={(e) => {
-                setPreparationTimeUnit(e.target.value);
-              }}
-            >
-              <MenuItem value={"hour"}>hour</MenuItem>
-              <MenuItem value={"min"}>min</MenuItem>
-            </Select>
+          <Box className="textfield-with-select-container time-container">
+            <Box className="textfield-with-select">
+              <TextField
+                className="textfield-with-select"
+                id="preparation-time-input"
+                variant="outlined"
+                label="Preparation time"
+                type="number"
+                onChange={(e) => {
+                  setPreparationTimeAmount(e.target.valueAsNumber);
+                }}
+              />
+            </Box>
+            <Box className="select-container">
+              <Select
+                className="time-unit-select"
+                value={preparationTimeUnit}
+                onChange={(e) => {
+                  setPreparationTimeUnit(e.target.value);
+                }}
+              >
+                <MenuItem value={"hour"}>hour</MenuItem>
+                <MenuItem value={"min"}>min</MenuItem>
+              </Select>
+            </Box>
           </Box>
-          <Box className="textfield-with-select-container">
-            <TextField
-              className="textfield"
-              id="cook-time-input"
-              variant="outlined"
-              label="Cook time"
-              type="number"
-              onChange={(e) => {
-                setCookTimeAmount(e.target.valueAsNumber);
-              }}
-            />
-            <Select
-              className="time-unit-select"
-              value={cookTimeUnit}
-              onChange={(e) => {
-                setcookTimeUnit(e.target.value);
-              }}
-            >
-              <MenuItem value={"hour"}>hour</MenuItem>
-              <MenuItem value={"min"}>min</MenuItem>
-            </Select>
+          <Box className="textfield-with-select-container time-container">
+            <Box className="textfield-with-select">
+              <TextField
+                id="cook-time-input"
+                variant="outlined"
+                label="Cook time"
+                type="number"
+                onChange={(e) => {
+                  setCookTimeAmount(e.target.valueAsNumber);
+                }}
+              />
+            </Box>
+            <Box className="select-container">
+              <Select
+                className="time-unit-select"
+                value={cookTimeUnit}
+                onChange={(e) => {
+                  setcookTimeUnit(e.target.value);
+                }}
+              >
+                <MenuItem value={"hour"}>hour</MenuItem>
+                <MenuItem value={"min"}>min</MenuItem>
+              </Select>
+            </Box>
           </Box>
-          <Box className="textfield-with-select-container">
-            <TextField
-              className="textfield"
-              id="additional-time-input"
-              variant="outlined"
-              label="Additional time"
-              type="number"
-              onChange={(e) => {
-                setadditionalTimeAmount(e.target.valueAsNumber);
-              }}
-            />
-            <Select
-              className="time-unit-select"
-              value={additionalTimeUnit}
-              onChange={(e) => {
-                setadditionalTimeUnit(e.target.value);
-              }}
-            >
-              <MenuItem value={"hour"}>hour</MenuItem>
-              <MenuItem value={"min"}>min</MenuItem>
-            </Select>
+          <Box className="textfield-with-select-container time-container">
+            <Box className="textfield-with-select">
+              <TextField
+                id="additional-time-input"
+                variant="outlined"
+                label="Additional time"
+                type="number"
+                onChange={(e) => {
+                  setadditionalTimeAmount(e.target.valueAsNumber);
+                }}
+              />
+            </Box>
+            <Box className="select-container">
+              <Select
+                className="time-unit-select"
+                value={additionalTimeUnit}
+                onChange={(e) => {
+                  setadditionalTimeUnit(e.target.value);
+                }}
+              >
+                <MenuItem value={"hour"}>hour</MenuItem>
+                <MenuItem value={"min"}>min</MenuItem>
+              </Select>
+            </Box>
           </Box>
           <Box>
             <Button

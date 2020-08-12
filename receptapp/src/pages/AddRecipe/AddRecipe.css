@@ -1,0 +1,20 @@
+#add-recipe-btn {
+  margin: 20px;
+}
+.textfield-with-select-container {
+  display: flex;
+  margin-top: 20px;
+}
+.textfield-with-select {
+  margin-right: 10px;
+}
+.select-container {
+  margin-top: 10px;
+}
+.time-container {
+  margin-left: 20px;
+}
+.list-container {
+  margin-left: -15px;
+  margin-top: -10px;
+}
