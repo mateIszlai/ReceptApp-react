@@ -28,6 +28,29 @@ export default function AddRecipe() {
   const [cookTimeUnit, setcookTimeUnit] = useState("");
   const [additionalTimeAmount, setadditionalTimeAmount] = useState(0);
   const [additionalTimeUnit, setadditionalTimeUnit] = useState("");
+  const [formValid, setFormValid] = useState(false);
+
+  const tryAddRecipe = () => {
+    axios
+      .post("/Recipes", {
+        name: recipeName,
+        description: recipeDescription,
+        preparationTimeAmount: preparationTimeAmount,
+        preparationTimeUnit: preparationTimeUnit,
+        cookTimeAmount: cookTimeAmount,
+        cookTimeUnit: cookTimeUnit,
+        additionalTimeAmount: additionalTimeAmount,
+        additionalTimeUnit: additionalTimeUnit,
+        servings: servings,
+        ingredients: ingredients,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  };
 
   useEffect(() => {
     setvalidIngredient(
@@ -36,6 +59,20 @@ export default function AddRecipe() {
         ingredientUnit.length > 0
     );
   }, [ingredientAmount, ingredientName.length, ingredientUnit.length]);
+
+  useEffect(() => {
+    setFormValid(
+      recipeName.length > 0 &&
+        ingredients.length > 0 &&
+        recipeDescription.length > 0 &&
+        servings > 0
+    );
+  }, [
+    ingredients.length,
+    recipeDescription.length,
+    recipeName.length,
+    servings,
+  ]);
 
   return (
     <Fragment>
@@ -209,6 +246,16 @@ export default function AddRecipe() {
               <MenuItem value={"hour"}>hour</MenuItem>
               <MenuItem value={"min"}>min</MenuItem>
             </Select>
+          </Box>
+          <Box>
+            <Button
+              variant="contained"
+              id="add-recipe-btn"
+              onClick={tryAddRecipe}
+              disabled={!formValid}
+            >
+              Add recipe
+            </Button>
           </Box>
         </form>
       </div>
