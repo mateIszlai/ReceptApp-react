@@ -22,6 +22,12 @@ export default function AddRecipe() {
   const [validIngredient, setvalidIngredient] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [servings, setServings] = useState(0);
+  const [preparationTimeAmount, setPreparationTimeAmount] = useState(0);
+  const [preparationTimeUnit, setPreparationTimeUnit] = useState("");
+  const [cookTimeAmount, setCookTimeAmount] = useState(0);
+  const [cookTimeUnit, setcookTimeUnit] = useState("");
+  const [additionalTimeAmount, setadditionalTimeAmount] = useState(0);
+  const [additionalTimeUnit, setadditionalTimeUnit] = useState("");
 
   useEffect(() => {
     setvalidIngredient(
@@ -137,6 +143,72 @@ export default function AddRecipe() {
                 setServings(e.target.valueAsNumber);
               }}
             />
+          </Box>
+          <Box className="textfield-with-select-container">
+            <TextField
+              className="textfield"
+              id="preparation-time-input"
+              variant="outlined"
+              label="Preparation time"
+              type="number"
+              onChange={(e) => {
+                setPreparationTimeAmount(e.target.valueAsNumber);
+              }}
+            />
+            <Select
+              className="time-unit-select"
+              value={preparationTimeUnit}
+              onChange={(e) => {
+                setPreparationTimeUnit(e.target.value);
+              }}
+            >
+              <MenuItem value={"hour"}>hour</MenuItem>
+              <MenuItem value={"min"}>min</MenuItem>
+            </Select>
+          </Box>
+          <Box className="textfield-with-select-container">
+            <TextField
+              className="textfield"
+              id="cook-time-input"
+              variant="outlined"
+              label="Cook time"
+              type="number"
+              onChange={(e) => {
+                setCookTimeAmount(e.target.valueAsNumber);
+              }}
+            />
+            <Select
+              className="time-unit-select"
+              value={cookTimeUnit}
+              onChange={(e) => {
+                setcookTimeUnit(e.target.value);
+              }}
+            >
+              <MenuItem value={"hour"}>hour</MenuItem>
+              <MenuItem value={"min"}>min</MenuItem>
+            </Select>
+          </Box>
+          <Box className="textfield-with-select-container">
+            <TextField
+              className="textfield"
+              id="additional-time-input"
+              variant="outlined"
+              label="Additional time"
+              type="number"
+              onChange={(e) => {
+                setadditionalTimeAmount(e.target.valueAsNumber);
+              }}
+            />
+            <Select
+              className="time-unit-select"
+              value={additionalTimeUnit}
+              onChange={(e) => {
+                setadditionalTimeUnit(e.target.value);
+              }}
+            >
+              <MenuItem value={"hour"}>hour</MenuItem>
+              <MenuItem value={"min"}>min</MenuItem>
+            </Select>
           </Box>
         </form>
       </div>
