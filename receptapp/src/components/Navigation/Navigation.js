@@ -51,6 +51,13 @@ export default function Navigation() {
                 </NavLink>
               </div>
             </li>
+            <li>
+              <div className="link-wrapper">
+                <NavLink to={"/recipes/add"} exact>
+                  Add recipe
+                </NavLink>
+              </div>
+            </li>
           </Fragment>
         )}
       </ul>
