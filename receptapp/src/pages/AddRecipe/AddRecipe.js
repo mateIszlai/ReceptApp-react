@@ -9,14 +9,18 @@ import {
   MenuItem,
   IconButton,
   Button,
+  Dialog,
+  DialogTitle,
 } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import axios from "../../axios/axios";
 import "./AddRecipe.css";
+import { useHistory } from "react-router";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
   const [recipeDescription, setRecipeDescription] = useState("");
+  const [description, setDescription] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
   const [ingredientAmount, setIngredientAmount] = useState(0.0);
   const [ingredientUnit, setIngredientUnit] = useState("");
@@ -30,12 +34,22 @@ export default function AddRecipe() {
   const [additionalTimeAmount, setadditionalTimeAmount] = useState(0);
   const [additionalTimeUnit, setadditionalTimeUnit] = useState("");
   const [formValid, setFormValid] = useState(false);
+  const [num, setNum] = useState(1);
+  const [show, setShow] = useState(false);
+  const [recipeId, setRecipeId] = useState("");
+
+  const history = useHistory();
+
+  const handleClose = () => {
+    setShow(false);
+    history.push(`/recipes/${recipeId}`);
+  };
 
   const tryAddRecipe = () => {
     axios
       .post("/Recipes", {
         name: recipeName,
-        description: recipeDescription,
+        description: description,
         preparationTimeAmount: preparationTimeAmount,
         preparationTimeUnit: preparationTimeUnit,
         cookTimeAmount: cookTimeAmount,
@@ -46,7 +60,11 @@ export default function AddRecipe() {
         ingredients: ingredients,
       })
       .then((response) => {
-        console.log(response);
+        if (response.status === 200) {
+          setShow(true);
+          setNum(1);
+          setRecipeId(response.data);
+        }
       })
       .catch((error) => {
         console.log(`Error: ${error}`);
@@ -65,10 +83,11 @@ export default function AddRecipe() {
     setFormValid(
       recipeName.length > 0 &&
         ingredients.length > 0 &&
-        recipeDescription.length > 0 &&
+        description.length > 0 &&
         servings > 0
     );
   }, [
+    description.length,
     ingredients.length,
     recipeDescription.length,
     recipeName.length,
@@ -78,6 +97,7 @@ export default function AddRecipe() {
   return (
     <Fragment>
       <div className="add-recipe-page-container">
+        <h1>Add a new recipe</h1>
         <form noValidate autoComplete="off">
           <Box className="textfield-container">
             <TextField
@@ -140,7 +160,10 @@ export default function AddRecipe() {
                   <MenuItem value={"dl"}>deciliter</MenuItem>
                   <MenuItem value={"cl"}>centiliter</MenuItem>
                   <MenuItem value={"ml"}>milliliter</MenuItem>
-                  <MenuItem value={"c"}>cup</MenuItem>
+                  <MenuItem value={"cup"}>cup</MenuItem>
+                  <MenuItem value={"cups"}>cups</MenuItem>
+                  <MenuItem value={"piece"}>piece</MenuItem>
+                  <MenuItem value={"pieces"}>pieces</MenuItem>
                 </Select>
               </Box>
               <IconButton
@@ -162,18 +185,45 @@ export default function AddRecipe() {
               </IconButton>
             </Box>
           </Box>
-          <Box className="textfield-container">
-            <TextField
-              className="textfield"
-              id="description-input"
-              variant="outlined"
-              label=" Description"
-              required
-              multiline
-              onChange={(e) => {
-                setRecipeDescription(e.target.value);
-              }}
-            />
+          <Box className="textfield-container" id="description-container">
+            <h3>Description:</h3>
+            <Box className="list-container">
+              <List className="description-list">
+                {description.map((item) => (
+                  <ListItem key={`item-${item}`} className="list-item">
+                    <ListItemText className="list-item-text">
+                      {item}
+                    </ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            <Box className="textfield-with-select-container">
+              <Box>
+                <TextField
+                  className="textfield"
+                  id="description-input"
+                  variant="outlined"
+                  label=" Description"
+                  required
+                  multiline
+                  onChange={(e) => {
+                    setRecipeDescription(e.target.value);
+                  }}
+                />
+              </Box>
+              <IconButton
+                aria-label="add-description-step"
+                disabled={recipeDescription.length === 0}
+                onClick={() => {
+                  setNum(num + 1);
+                  let desc = description.concat(`${num}. ${recipeDescription}`);
+                  setDescription(desc);
+                }}
+              >
+                <AddCircleRoundedIcon id="add-icon" fontSize="large" />
+              </IconButton>
+            </Box>
           </Box>
           <Box className="textfield-container">
             <TextField
@@ -276,6 +326,22 @@ export default function AddRecipe() {
           </Box>
         </form>
       </div>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby="add-dialog-title"
+        open={show}
+      >
+        <DialogTitle id="add-dialog-title">
+          Your recipe has been added successfully
+        </DialogTitle>
+        <Button
+          variant="contained"
+          className="dialog-close-btn"
+          onClick={handleClose}
+        >
+          Close
+        </Button>
+      </Dialog>
     </Fragment>
   );
 }

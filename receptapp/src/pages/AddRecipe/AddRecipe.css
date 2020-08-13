@@ -18,3 +18,12 @@
   margin-left: -15px;
   margin-top: -10px;
 }
+
+.add-recipe-page-container h1 {
+  margin: 20px;
+}
+
+#desription-container h3,
+.description-list {
+  margin-left: 20px;
+}
