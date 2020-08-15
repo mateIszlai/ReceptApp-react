@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import {
   Box,
   TextField,
@@ -11,11 +11,13 @@ import {
   Button,
   Dialog,
   DialogTitle,
+  DialogActions,
 } from "@material-ui/core";
 import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import axios from "../../axios/axios";
 import "./AddRecipe.css";
-import { useHistory } from "react-router";
+import { NavLink } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -37,13 +39,7 @@ export default function AddRecipe() {
   const [num, setNum] = useState(1);
   const [show, setShow] = useState(false);
   const [recipeId, setRecipeId] = useState("");
-
-  const history = useHistory();
-
-  const handleClose = () => {
-    setShow(false);
-    history.push(`/recipes/${recipeId}`);
-  };
+  const user = useContext(UserContext)[0];
 
   const tryAddRecipe = () => {
     axios
@@ -94,7 +90,11 @@ export default function AddRecipe() {
     servings,
   ]);
 
-  return (
+  return !user.loggedIn ? (
+    <Fragment>
+      <h2>Please login to this action</h2>
+    </Fragment>
+  ) : (
     <Fragment>
       <div className="add-recipe-page-container">
         <h1>Add a new recipe</h1>
@@ -327,20 +327,25 @@ export default function AddRecipe() {
         </form>
       </div>
       <Dialog
-        onClose={handleClose}
+        onClose={() => setShow(false)}
         aria-labelledby="add-dialog-title"
         open={show}
+        className="navigation-dialog"
       >
         <DialogTitle id="add-dialog-title">
           Your recipe has been added successfully
         </DialogTitle>
-        <Button
-          variant="contained"
-          className="dialog-close-btn"
-          onClick={handleClose}
-        >
-          Close
-        </Button>
+        <DialogActions>
+          <NavLink to={`/recipes/${recipeId}`} exact>
+            <Button
+              variant="contained"
+              className="dialog-close-btn"
+              onClick={() => setShow(false)}
+            >
+              Close
+            </Button>
+          </NavLink>
+        </DialogActions>
       </Dialog>
     </Fragment>
   );

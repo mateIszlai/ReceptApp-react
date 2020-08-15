@@ -6,3 +6,7 @@
   text-align: center;
   margin: 20px;
 }
+
+.navigation-dialog a {
+  text-decoration: none;
+}
