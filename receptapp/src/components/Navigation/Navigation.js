@@ -46,6 +46,13 @@ export default function Navigation() {
           <Fragment>
             <li>
               <div className="link-wrapper">
+                <NavLink to={`/profile/${user.userName}/edit`} exact>
+                  edit profile
+                </NavLink>
+              </div>
+            </li>
+            <li>
+              <div className="link-wrapper">
                 <NavLink to={"/logout"} exact>
                   Logout
                 </NavLink>
