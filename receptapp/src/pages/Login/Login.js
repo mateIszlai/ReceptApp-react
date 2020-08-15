@@ -18,6 +18,7 @@ export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [showError, setShowError] = useState(false);
   const setUser = useContext(UserContext)[1];
 
   const tryLogin = () => {
@@ -37,7 +38,9 @@ export default function Login() {
           setShow(true);
         }
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        setShowError(true);
+      });
   };
 
   return (
@@ -77,6 +80,7 @@ export default function Login() {
               variant="contained"
               className="login-btn"
               onClick={tryLogin}
+              disabled={userName.length === 0 || password.length === 0}
             >
               Login
             </Button>
@@ -90,7 +94,7 @@ export default function Login() {
         className="navigation-dialog"
       >
         <DialogTitle id="add-dialog-title">
-          Your recipe has been added successfully
+          You are logged in successfully
         </DialogTitle>
         <DialogActions>
           <NavLink to={"/"} exact>
@@ -102,6 +106,25 @@ export default function Login() {
               Close
             </Button>
           </NavLink>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        onClose={() => setShowError(false)}
+        aria-labelledby="login-error-dialog-title"
+        open={showError}
+        className="navigation-dialog"
+      >
+        <DialogTitle id="login-error-dialog-title">
+          Wrong username or password
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            variant="contained"
+            className="dialog-close-btn"
+            onClick={() => setShowError(false)}
+          >
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Fragment>
