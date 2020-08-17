@@ -10,7 +10,7 @@ import {
 import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
 import "./Login.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 export default function Login() {
   const USER_NAME = 1;
@@ -18,7 +18,9 @@ export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [showError, setShowError] = useState(false);
   const setUser = useContext(UserContext)[1];
+  const history = useHistory();
 
   const tryLogin = () => {
     axios
@@ -37,7 +39,9 @@ export default function Login() {
           setShow(true);
         }
       })
-      .catch((error) => console.log(error));
+      .catch(() => {
+        setShowError(true);
+      });
   };
 
   return (
@@ -76,7 +80,9 @@ export default function Login() {
             <Button
               variant="contained"
               className="login-btn"
+              color="primary"
               onClick={tryLogin}
+              disabled={userName.length === 0 || password.length === 0}
             >
               Login
             </Button>
@@ -84,24 +90,46 @@ export default function Login() {
         </form>
       </div>
       <Dialog
-        onClose={() => setShow(false)}
+        onClose={() => {
+          setShow(false);
+          history.push("/");
+        }}
         aria-labelledby="add-dialog-title"
         open={show}
         className="navigation-dialog"
       >
         <DialogTitle id="add-dialog-title">
-          Your recipe has been added successfully
+          You are logged in successfully
         </DialogTitle>
         <DialogActions>
           <NavLink to={"/"} exact>
             <Button
-              variant="contained"
               className="dialog-close-btn"
+              color="primary"
               onClick={() => setShow(false)}
             >
               Close
             </Button>
           </NavLink>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        onClose={() => setShowError(false)}
+        aria-labelledby="login-error-dialog-title"
+        open={showError}
+        className="navigation-dialog"
+      >
+        <DialogTitle id="login-error-dialog-title">
+          Wrong username or password
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            className="dialog-close-btn"
+            color="primary"
+            onClick={() => setShowError(false)}
+          >
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </Fragment>
