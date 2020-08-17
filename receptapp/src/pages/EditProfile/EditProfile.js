@@ -10,6 +10,9 @@ import {
 import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
 import emailValidator from "email-validator";
+import { useHistory } from "react-router";
+import { NavLink } from "react-router-dom";
+import "./EditProfile.css";
 
 export default function EditProfile() {
   const [firstName, setFirstName] = useState("");
@@ -26,6 +29,8 @@ export default function EditProfile() {
   const [passwordsCorrect, setPasswordsCorrect] = useState(false);
   const [dataChangeShow, setDataChangeShow] = useState(false);
   const [passwordChangeShow, setPasswordChangeShow] = useState(false);
+  const [deleteProfileShow, setDeleteProfileShow] = useState(false);
+  const [deleteSuccessShow, setDeleteSuccessShow] = useState(false);
   const [data, setData] = useState({
     firstName: "",
     lastName: "",
@@ -33,7 +38,8 @@ export default function EditProfile() {
     email: "",
   });
 
-  const user = useContext(UserContext)[0];
+  const [user, setUser] = useContext(UserContext);
+  const history = useHistory();
 
   const tryModifyData = () => {
     axios
@@ -63,6 +69,17 @@ export default function EditProfile() {
       })
       .then((response) => {
         if (response.status === 200) setPasswordChangeShow(true);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const tryDeleteAccount = () => {
+    axios
+      .delete(`/users/${user.userId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setDeleteSuccessShow(true);
+        }
       })
       .catch((error) => console.log(error));
   };
@@ -196,6 +213,7 @@ export default function EditProfile() {
               variant="contained"
               id="modify-data-btn"
               disabled={modified}
+              color="primary"
               onClick={tryModifyData}
             >
               Edit profile
@@ -259,6 +277,7 @@ export default function EditProfile() {
             <Button
               variant="contained"
               id="modify-password-btn"
+              color="primary"
               disabled={!passwordsCorrect}
               onClick={tryModifyPassword}
             >
@@ -266,6 +285,16 @@ export default function EditProfile() {
             </Button>
           </Box>
         </form>
+        <Box className="btn-container">
+          <Button
+            variant="contained"
+            id="delete-profile-btn"
+            color="secondary"
+            onClick={() => setDeleteProfileShow(true)}
+          >
+            Delete profile
+          </Button>
+        </Box>
       </div>
       <Dialog
         onClose={() => setDataChangeShow(false)}
@@ -278,8 +307,8 @@ export default function EditProfile() {
         </DialogTitle>
         <DialogActions>
           <Button
-            variant="contained"
             className="dialog-close-btn"
+            color="primary"
             onClick={() => setDataChangeShow(false)}
           >
             Close
@@ -287,7 +316,7 @@ export default function EditProfile() {
         </DialogActions>
       </Dialog>
       <Dialog
-        onClose={() => setDataChangeShow(false)}
+        onClose={() => setPasswordChangeShow(false)}
         aria-labelledby="modify-dialog-title"
         open={passwordChangeShow}
         className="navigation-dialog"
@@ -297,12 +326,66 @@ export default function EditProfile() {
         </DialogTitle>
         <DialogActions>
           <Button
-            variant="contained"
             className="dialog-close-btn"
+            color="primary"
             onClick={() => setPasswordChangeShow(false)}
           >
             Close
           </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        onClose={() => setDeleteProfileShow(false)}
+        aria-labelledby="delete-dialog-title"
+        open={deleteProfileShow}
+        className="navigation-dialog"
+      >
+        <DialogTitle id="delete-dialog-title">
+          Are you sure you want to delete your profile?
+        </DialogTitle>
+        <DialogActions>
+          <Button
+            id="dialog-delete-btn"
+            color="secondary"
+            onClick={tryDeleteAccount}
+          >
+            Delete
+          </Button>
+          <Button
+            className="dialog-close-btn"
+            color="primary"
+            onClick={() => setDeleteProfileShow(false)}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        onClose={() => {
+          setDeleteSuccessShow(false);
+          setUser({ userName: "", userId: "", loggedIn: false });
+          history.push("/");
+        }}
+        aria-labelledby="delete-info-dialog-title"
+        open={deleteSuccessShow}
+        className="navigation-dialog"
+      >
+        <DialogTitle id="delete-info-dialog-title">
+          Your profile deleted successfully :(
+        </DialogTitle>
+        <DialogActions>
+          <NavLink to="/" exact>
+            <Button
+              className="dialog-close-btn"
+              color="primary"
+              onClick={() => {
+                setDeleteSuccessShow(false);
+                setUser({ userName: "", userId: "", loggedIn: false });
+              }}
+            >
+              Close
+            </Button>
+          </NavLink>
         </DialogActions>
       </Dialog>
     </Fragment>
