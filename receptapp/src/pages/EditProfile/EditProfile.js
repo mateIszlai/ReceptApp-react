@@ -345,18 +345,18 @@ export default function EditProfile() {
         </DialogTitle>
         <DialogActions>
           <Button
-            id="dialog-delete-btn"
-            color="secondary"
-            onClick={tryDeleteAccount}
-          >
-            Delete
-          </Button>
-          <Button
             className="dialog-close-btn"
             color="primary"
             onClick={() => setDeleteProfileShow(false)}
           >
             Close
+          </Button>
+          <Button
+            id="dialog-delete-btn"
+            color="secondary"
+            onClick={tryDeleteAccount}
+          >
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
