@@ -10,7 +10,7 @@ import {
 import axios from "../../axios/axios";
 import "./Register.css";
 import emailValidator from "email-validator";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 export default function Register() {
   const [userName, setUserName] = useState("");
@@ -24,6 +24,8 @@ export default function Register() {
   const [nickName, setNickName] = useState("");
   const [show, setShow] = useState(false);
   const [valid, setValid] = useState(false);
+
+  const history = useHistory();
 
   const tryRegister = () => {
     axios
@@ -175,6 +177,7 @@ export default function Register() {
               variant="contained"
               className="register-btn"
               disabled={!valid}
+              color="primary"
               onClick={tryRegister}
             >
               Register
@@ -183,19 +186,22 @@ export default function Register() {
         </form>
       </div>
       <Dialog
-        onClose={() => setShow(false)}
+        onClose={() => {
+          setShow(false);
+          history.push("/");
+        }}
         aria-labelledby="add-dialog-title"
         open={show}
         className="navigation-dialog"
       >
         <DialogTitle id="add-dialog-title">
-          Your recipe has been added successfully
+          You registered successfully
         </DialogTitle>
         <DialogActions>
           <NavLink to={"/"} exact>
             <Button
-              variant="contained"
               className="dialog-close-btn"
+              color="primary"
               onClick={() => setShow(false)}
             >
               Close

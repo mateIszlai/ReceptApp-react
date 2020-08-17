@@ -10,7 +10,7 @@ import {
 import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
 import "./Login.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 export default function Login() {
   const USER_NAME = 1;
@@ -20,6 +20,7 @@ export default function Login() {
   const [show, setShow] = useState(false);
   const [showError, setShowError] = useState(false);
   const setUser = useContext(UserContext)[1];
+  const history = useHistory();
 
   const tryLogin = () => {
     axios
@@ -79,6 +80,7 @@ export default function Login() {
             <Button
               variant="contained"
               className="login-btn"
+              color="primary"
               onClick={tryLogin}
               disabled={userName.length === 0 || password.length === 0}
             >
@@ -88,7 +90,10 @@ export default function Login() {
         </form>
       </div>
       <Dialog
-        onClose={() => setShow(false)}
+        onClose={() => {
+          setShow(false);
+          history.push("/");
+        }}
         aria-labelledby="add-dialog-title"
         open={show}
         className="navigation-dialog"
@@ -99,8 +104,8 @@ export default function Login() {
         <DialogActions>
           <NavLink to={"/"} exact>
             <Button
-              variant="contained"
               className="dialog-close-btn"
+              color="primary"
               onClick={() => setShow(false)}
             >
               Close
@@ -119,8 +124,8 @@ export default function Login() {
         </DialogTitle>
         <DialogActions>
           <Button
-            variant="contained"
             className="dialog-close-btn"
+            color="primary"
             onClick={() => setShowError(false)}
           >
             Close
