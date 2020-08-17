@@ -10,6 +10,7 @@ import Logout from "./pages/Logout/Logout";
 import Header from "./layout/Header";
 import AddRecipe from "./pages/AddRecipe/AddRecipe";
 import EditProfile from "./pages/EditProfile/EditProfile";
+import Profile from "./pages/Profile/Profile";
 
 function App(props) {
   return (
@@ -32,6 +33,7 @@ function Content() {
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout} />
           <Route path="/recipes/add" exact component={AddRecipe} />
+          <Route path="/profile/:username" exact component={Profile} />
           <Route path="/profile/:username/edit" exact component={EditProfile} />
         </Switch>
       </Container>
