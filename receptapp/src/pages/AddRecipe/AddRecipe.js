@@ -1,9 +1,6 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import {
   Box,
-  TextField,
-  Select,
-  MenuItem,
   Button,
   Dialog,
   DialogTitle,
@@ -21,6 +18,7 @@ import DescriptionInput from "../../components/Description/DescriptionInput";
 import ServingsInput from "../../components/Servings/ServingsInput";
 import PreparationTimeInput from "../../components/TimeInputs/PreparationTimeInput";
 import CookTimeInput from "../../components/TimeInputs/CookTimeInput";
+import AdditionalTimeInput from "../../components/TimeInputs/AdditionalTimeInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -32,8 +30,8 @@ export default function AddRecipe() {
   const [preparationTimeUnit, setPreparationTimeUnit] = useState("");
   const [cookTimeAmount, setCookTimeAmount] = useState(0);
   const [cookTimeUnit, setcookTimeUnit] = useState("");
-  const [additionalTimeAmount, setadditionalTimeAmount] = useState(0);
-  const [additionalTimeUnit, setadditionalTimeUnit] = useState("");
+  const [additionalTimeAmount, setAdditionalTimeAmount] = useState(0);
+  const [additionalTimeUnit, setAdditionalTimeUnit] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [show, setShow] = useState(false);
   const [recipeId, setRecipeId] = useState("");
@@ -112,31 +110,11 @@ export default function AddRecipe() {
             cookTimeUnit={cookTimeUnit}
             setcookTimeUnit={setcookTimeUnit}
           />
-          <Box className="textfield-with-select-container time-container">
-            <Box className="textfield-with-select">
-              <TextField
-                id="additional-time-input"
-                variant="outlined"
-                label="Additional time"
-                type="number"
-                onChange={(e) => {
-                  setadditionalTimeAmount(e.target.valueAsNumber);
-                }}
-              />
-            </Box>
-            <Box className="select-container">
-              <Select
-                className="time-unit-select"
-                value={additionalTimeUnit}
-                onChange={(e) => {
-                  setadditionalTimeUnit(e.target.value);
-                }}
-              >
-                <MenuItem value={"hour"}>hour</MenuItem>
-                <MenuItem value={"min"}>min</MenuItem>
-              </Select>
-            </Box>
-          </Box>
+          <AdditionalTimeInput
+            setAdditionalTimeAmount={setAdditionalTimeAmount}
+            additionalTimeUnit={additionalTimeUnit}
+            setAdditionalTimeUnit={setAdditionalTimeUnit}
+          />
           <Box>
             <Button
               variant="contained"
