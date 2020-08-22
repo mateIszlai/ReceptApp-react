@@ -14,10 +14,10 @@ import "./AddRecipe.css";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import NameInput from "../../components/NameInput";
-import IngredientList from "../../components/IngredientList/IngredientList";
-import IngredientInput from "../../components/IngredientInput/IngredientInput";
-import DescriptionList from "../../components/DescriptionList/DescriptionList";
-import DescriptionInput from "../../components/DescriptionInput/DescriptionInput";
+import IngredientList from "../../components/Ingredients/IngredientList/IngredientList";
+import IngredientInput from "../../components/Ingredients/IngredientInput";
+import DescriptionList from "../../components/Description/DescriptionList";
+import DescriptionInput from "../../components/Description/DescriptionInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -98,19 +98,7 @@ export default function AddRecipe() {
               setDescription={setDescription}
             />
           </Box>
-          <Box className="textfield-container">
-            <TextField
-              className="textfield"
-              id="servings-input"
-              variant="outlined"
-              label="Servings"
-              required
-              type="number"
-              onChange={(e) => {
-                setServings(e.target.valueAsNumber);
-              }}
-            />
-          </Box>
+
           <Box className="textfield-with-select-container time-container">
             <Box className="textfield-with-select">
               <TextField
