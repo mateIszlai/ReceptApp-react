@@ -1,14 +1,7 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import axios from "../../axios/axios";
 import "./AddRecipe.css";
-import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import NameInput from "../../components/NameInput";
 import IngredientList from "../../components/Ingredients/IngredientList/IngredientList";
@@ -19,6 +12,7 @@ import ServingsInput from "../../components/Servings/ServingsInput";
 import PreparationTimeInput from "../../components/TimeInputs/PreparationTimeInput";
 import CookTimeInput from "../../components/TimeInputs/CookTimeInput";
 import AdditionalTimeInput from "../../components/TimeInputs/AdditionalTimeInput";
+import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -71,7 +65,11 @@ export default function AddRecipe() {
     );
   }, [description.length, ingredients.length, recipeName.length, servings]);
 
-  return (
+  return !user.loggedIn ? (
+    <Fragment>
+      <h2>Please login to this action</h2>
+    </Fragment>
+  ) : (
     <Fragment>
       <div className="add-recipe-page-container">
         <h1>Add a new recipe</h1>
@@ -127,27 +125,12 @@ export default function AddRecipe() {
           </Box>
         </form>
       </div>
-      <Dialog
-        onClose={() => setShow(false)}
-        aria-labelledby="add-dialog-title"
-        open={show}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="add-dialog-title">
-          Your recipe has been added successfully
-        </DialogTitle>
-        <DialogActions>
-          <NavLink to={`/recipes/${recipeId}`} exact>
-            <Button
-              variant="contained"
-              className="dialog-close-btn"
-              onClick={() => setShow(false)}
-            >
-              Close
-            </Button>
-          </NavLink>
-        </DialogActions>
-      </Dialog>
+      <MessageNavDialog
+        show={show}
+        setShow={setShow}
+        url={`/recipes/${recipeId}`}
+        message="Your recipe has been added successfully"
+      />
     </Fragment>
   );
 }

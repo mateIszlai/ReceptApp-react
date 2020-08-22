@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
 import { NavLink, useHistory } from "react-router-dom";
 
-export default function SuccessNavDialog(props) {
+export default function MessageNavDialog(props) {
   const history = useHistory();
   return (
     <Fragment>
