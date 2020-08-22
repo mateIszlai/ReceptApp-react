@@ -4,13 +4,11 @@ import {
   TextField,
   Select,
   MenuItem,
-  IconButton,
   Button,
   Dialog,
   DialogTitle,
   DialogActions,
 } from "@material-ui/core";
-import AddCircleRoundedIcon from "@material-ui/icons/AddCircleRounded";
 import axios from "../../axios/axios";
 import "./AddRecipe.css";
 import { NavLink } from "react-router-dom";
@@ -19,10 +17,10 @@ import NameInput from "../../components/NameInput";
 import IngredientList from "../../components/IngredientList/IngredientList";
 import IngredientInput from "../../components/IngredientInput/IngredientInput";
 import DescriptionList from "../../components/DescriptionList/DescriptionList";
+import DescriptionInput from "../../components/DescriptionInput/DescriptionInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
-  const [recipeDescription, setRecipeDescription] = useState("");
   const [description, setDescription] = useState([]);
 
   const [ingredients, setIngredients] = useState([]);
@@ -70,13 +68,7 @@ export default function AddRecipe() {
         description.length > 0 &&
         servings > 0
     );
-  }, [
-    description.length,
-    ingredients.length,
-    recipeDescription.length,
-    recipeName.length,
-    servings,
-  ]);
+  }, [description.length, ingredients.length, recipeName.length, servings]);
 
   return (
     <Fragment>
@@ -101,31 +93,10 @@ export default function AddRecipe() {
               description={description}
               setDescription={setDescription}
             />
-            <Box className="textfield-with-select-container">
-              <Box>
-                <TextField
-                  className="textfield"
-                  id="description-input"
-                  variant="outlined"
-                  label=" Description"
-                  required
-                  multiline
-                  onChange={(e) => {
-                    setRecipeDescription(e.target.value);
-                  }}
-                />
-              </Box>
-              <IconButton
-                aria-label="add-description-step"
-                disabled={recipeDescription.length === 0}
-                onClick={() => {
-                  let desc = description.concat(recipeDescription);
-                  setDescription(desc);
-                }}
-              >
-                <AddCircleRoundedIcon id="add-icon" fontSize="large" />
-              </IconButton>
-            </Box>
+            <DescriptionInput
+              description={description}
+              setDescription={setDescription}
+            />
           </Box>
           <Box className="textfield-container">
             <TextField
