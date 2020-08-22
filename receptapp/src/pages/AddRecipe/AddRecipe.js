@@ -18,6 +18,7 @@ import IngredientList from "../../components/Ingredients/IngredientList/Ingredie
 import IngredientInput from "../../components/Ingredients/IngredientInput";
 import DescriptionList from "../../components/Description/DescriptionList";
 import DescriptionInput from "../../components/Description/DescriptionInput";
+import ServingsInput from "../../components/Servings/ServingsInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -98,7 +99,7 @@ export default function AddRecipe() {
               setDescription={setDescription}
             />
           </Box>
-
+          <ServingsInput servings={servings} setServings={setServings} />
           <Box className="textfield-with-select-container time-container">
             <Box className="textfield-with-select">
               <TextField
