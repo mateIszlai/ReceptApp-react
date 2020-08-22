@@ -18,8 +18,8 @@ import axios from "../../axios/axios";
 import "./AddRecipe.css";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import NameInput from "../../components/NameInput";
+import IngredientList from "../../components/IngredientList/IngredientList";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -90,11 +90,7 @@ export default function AddRecipe() {
     servings,
   ]);
 
-  return !user.loggedIn ? (
-    <Fragment>
-      <h2>Please login to this action</h2>
-    </Fragment>
-  ) : (
+  return (
     <Fragment>
       <div className="add-recipe-page-container">
         <h1>Add a new recipe</h1>
@@ -102,29 +98,10 @@ export default function AddRecipe() {
           <NameInput setRecipeName={setRecipeName} />
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
-            <Box className="list-container">
-              <List className="ingredients-list">
-                {ingredients.map((item) => (
-                  <ListItem key={`item-${item.name}`} className="list-item">
-                    <ListItemText className="list-item-text">
-                      {`${item.name}: ${item.quantity.amount} ${item.quantity.unit}`}
-                    </ListItemText>
-                    <IconButton
-                      aria-label="remove-ingredient"
-                      size="medium"
-                      onClick={() => {
-                        setIngredients(ingredients.filter((i) => i !== item));
-                      }}
-                    >
-                      <RemoveCircleIcon
-                        fontSize="large"
-                        className="remove-ingredient-icon"
-                      />
-                    </IconButton>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
+            <IngredientList
+              ingredients={ingredients}
+              setIngredients={setIngredients}
+            />
             <Box className="textfield-with-select-container">
               <Box className="textfield-with-select">
                 <TextField
