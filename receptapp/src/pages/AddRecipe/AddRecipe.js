@@ -18,6 +18,8 @@ import axios from "../../axios/axios";
 import "./AddRecipe.css";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import NameInput from "../../components/NameInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -36,7 +38,6 @@ export default function AddRecipe() {
   const [additionalTimeAmount, setadditionalTimeAmount] = useState(0);
   const [additionalTimeUnit, setadditionalTimeUnit] = useState("");
   const [formValid, setFormValid] = useState(false);
-  const [num, setNum] = useState(1);
   const [show, setShow] = useState(false);
   const [recipeId, setRecipeId] = useState("");
   const user = useContext(UserContext)[0];
@@ -58,7 +59,6 @@ export default function AddRecipe() {
       .then((response) => {
         if (response.status === 200) {
           setShow(true);
-          setNum(1);
           setRecipeId(response.data);
         }
       })
@@ -99,18 +99,7 @@ export default function AddRecipe() {
       <div className="add-recipe-page-container">
         <h1>Add a new recipe</h1>
         <form noValidate autoComplete="off">
-          <Box className="textfield-container">
-            <TextField
-              className="textfield"
-              id="name-input"
-              variant="outlined"
-              label="Name of the recipe"
-              required
-              onChange={(e) => {
-                setRecipeName(e.target.value);
-              }}
-            />
-          </Box>
+          <NameInput setRecipeName={setRecipeName} />
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
             <Box className="list-container">
@@ -120,6 +109,18 @@ export default function AddRecipe() {
                     <ListItemText className="list-item-text">
                       {`${item.name}: ${item.quantity.amount} ${item.quantity.unit}`}
                     </ListItemText>
+                    <IconButton
+                      aria-label="remove-ingredient"
+                      size="medium"
+                      onClick={() => {
+                        setIngredients(ingredients.filter((i) => i !== item));
+                      }}
+                    >
+                      <RemoveCircleIcon
+                        fontSize="large"
+                        className="remove-ingredient-icon"
+                      />
+                    </IconButton>
                   </ListItem>
                 ))}
               </List>
@@ -173,10 +174,8 @@ export default function AddRecipe() {
                 onClick={() => {
                   let ingrs = ingredients.concat({
                     name: ingredientName,
-                    quantity: {
-                      amount: ingredientAmount,
-                      unit: ingredientUnit,
-                    },
+                    amount: ingredientAmount,
+                    unit: ingredientUnit,
                   });
                   setIngredients(ingrs);
                 }}
@@ -189,10 +188,10 @@ export default function AddRecipe() {
             <h3>Description:</h3>
             <Box className="list-container">
               <List className="description-list">
-                {description.map((item) => (
+                {description.map((item, index) => (
                   <ListItem key={`item-${item}`} className="list-item">
                     <ListItemText className="list-item-text">
-                      {item}
+                      {`${index + 1}. ${item}`}
                     </ListItemText>
                   </ListItem>
                 ))}
@@ -216,8 +215,7 @@ export default function AddRecipe() {
                 aria-label="add-description-step"
                 disabled={recipeDescription.length === 0}
                 onClick={() => {
-                  setNum(num + 1);
-                  let desc = description.concat(`${num}. ${recipeDescription}`);
+                  let desc = description.concat(recipeDescription);
                   setDescription(desc);
                 }}
               >
