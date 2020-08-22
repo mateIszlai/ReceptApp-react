@@ -1,16 +1,10 @@
 import React, { Fragment, useState, useContext } from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@material-ui/core";
+import { Box, TextField, Button } from "@material-ui/core";
 import { UserContext } from "../../context/UserContext";
 import axios from "../../axios/axios";
 import "./Login.css";
-import { NavLink, useHistory } from "react-router-dom";
+import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
+import MessageDialog from "../../components/Dialogs/MessageDialog";
 
 export default function Login() {
   const USER_NAME = 1;
@@ -20,7 +14,6 @@ export default function Login() {
   const [show, setShow] = useState(false);
   const [showError, setShowError] = useState(false);
   const setUser = useContext(UserContext)[1];
-  const history = useHistory();
 
   const tryLogin = () => {
     axios
@@ -89,49 +82,17 @@ export default function Login() {
           </Box>
         </form>
       </div>
-      <Dialog
-        onClose={() => {
-          setShow(false);
-          history.push("/");
-        }}
-        aria-labelledby="add-dialog-title"
-        open={show}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="add-dialog-title">
-          You are logged in successfully
-        </DialogTitle>
-        <DialogActions>
-          <NavLink to={"/"} exact>
-            <Button
-              className="dialog-close-btn"
-              color="primary"
-              onClick={() => setShow(false)}
-            >
-              Close
-            </Button>
-          </NavLink>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        onClose={() => setShowError(false)}
-        aria-labelledby="login-error-dialog-title"
-        open={showError}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="login-error-dialog-title">
-          Wrong username or password
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            className="dialog-close-btn"
-            color="primary"
-            onClick={() => setShowError(false)}
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <MessageNavDialog
+        show={show}
+        setShow={setShow}
+        message="You are logged in successfully"
+        url="/"
+      />
+      <MessageDialog
+        show={showError}
+        setShow={setShowError}
+        message="Wrong username or password"
+      />
     </Fragment>
   );
 }
