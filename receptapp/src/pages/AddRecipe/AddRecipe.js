@@ -19,6 +19,7 @@ import IngredientInput from "../../components/Ingredients/IngredientInput";
 import DescriptionList from "../../components/Description/DescriptionList";
 import DescriptionInput from "../../components/Description/DescriptionInput";
 import ServingsInput from "../../components/Servings/ServingsInput";
+import PreparationTimeInput from "../../components/TimeInputs/PreparationTimeInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -100,32 +101,11 @@ export default function AddRecipe() {
             />
           </Box>
           <ServingsInput servings={servings} setServings={setServings} />
-          <Box className="textfield-with-select-container time-container">
-            <Box className="textfield-with-select">
-              <TextField
-                className="textfield-with-select"
-                id="preparation-time-input"
-                variant="outlined"
-                label="Preparation time"
-                type="number"
-                onChange={(e) => {
-                  setPreparationTimeAmount(e.target.valueAsNumber);
-                }}
-              />
-            </Box>
-            <Box className="select-container">
-              <Select
-                className="time-unit-select"
-                value={preparationTimeUnit}
-                onChange={(e) => {
-                  setPreparationTimeUnit(e.target.value);
-                }}
-              >
-                <MenuItem value={"hour"}>hour</MenuItem>
-                <MenuItem value={"min"}>min</MenuItem>
-              </Select>
-            </Box>
-          </Box>
+          <PreparationTimeInput
+            setPreparationTimeAmount={setPreparationTimeAmount}
+            preparationTimeUnit={preparationTimeUnit}
+            setPreparationTimeUnit={setPreparationTimeUnit}
+          />
           <Box className="textfield-with-select-container time-container">
             <Box className="textfield-with-select">
               <TextField
