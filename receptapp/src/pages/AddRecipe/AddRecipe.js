@@ -2,9 +2,6 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import {
   Box,
   TextField,
-  List,
-  ListItem,
-  ListItemText,
   Select,
   MenuItem,
   IconButton,
@@ -21,6 +18,7 @@ import { UserContext } from "../../context/UserContext";
 import NameInput from "../../components/NameInput";
 import IngredientList from "../../components/IngredientList/IngredientList";
 import IngredientInput from "../../components/IngredientInput/IngredientInput";
+import DescriptionList from "../../components/DescriptionList/DescriptionList";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -99,17 +97,10 @@ export default function AddRecipe() {
           </Box>
           <Box className="textfield-container" id="description-container">
             <h3>Description:</h3>
-            <Box className="list-container">
-              <List className="description-list">
-                {description.map((item, index) => (
-                  <ListItem key={`item-${item}`} className="list-item">
-                    <ListItemText className="list-item-text">
-                      {`${index + 1}. ${item}`}
-                    </ListItemText>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
+            <DescriptionList
+              description={description}
+              setDescription={setDescription}
+            />
             <Box className="textfield-with-select-container">
               <Box>
                 <TextField
