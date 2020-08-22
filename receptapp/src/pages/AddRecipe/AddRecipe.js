@@ -20,15 +20,13 @@ import { NavLink } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import NameInput from "../../components/NameInput";
 import IngredientList from "../../components/IngredientList/IngredientList";
+import IngredientInput from "../../components/IngredientInput/IngredientInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
   const [recipeDescription, setRecipeDescription] = useState("");
   const [description, setDescription] = useState([]);
-  const [ingredientName, setIngredientName] = useState("");
-  const [ingredientAmount, setIngredientAmount] = useState(0.0);
-  const [ingredientUnit, setIngredientUnit] = useState("");
-  const [validIngredient, setvalidIngredient] = useState(false);
+
   const [ingredients, setIngredients] = useState([]);
   const [servings, setServings] = useState(0);
   const [preparationTimeAmount, setPreparationTimeAmount] = useState(0);
@@ -68,14 +66,6 @@ export default function AddRecipe() {
   };
 
   useEffect(() => {
-    setvalidIngredient(
-      ingredientName.length > 0 &&
-        ingredientAmount > 0 &&
-        ingredientUnit.length > 0
-    );
-  }, [ingredientAmount, ingredientName.length, ingredientUnit.length]);
-
-  useEffect(() => {
     setFormValid(
       recipeName.length > 0 &&
         ingredients.length > 0 &&
@@ -102,64 +92,10 @@ export default function AddRecipe() {
               ingredients={ingredients}
               setIngredients={setIngredients}
             />
-            <Box className="textfield-with-select-container">
-              <Box className="textfield-with-select">
-                <TextField
-                  id="ingredient-name-input"
-                  variant="outlined"
-                  label="Ingredient name"
-                  onChange={(e) => {
-                    setIngredientName(e.target.value);
-                  }}
-                />
-              </Box>
-              <Box className="textfield-with-select">
-                <TextField
-                  id="ingredient-amount-input"
-                  variant="outlined"
-                  label="Amount"
-                  type="number"
-                  onChange={(e) => setIngredientAmount(e.target.valueAsNumber)}
-                />
-              </Box>
-              <Box className="select-container">
-                <Select
-                  id="ingredient-unit-select"
-                  value={ingredientUnit}
-                  onChange={(e) => setIngredientUnit(e.target.value)}
-                >
-                  <MenuItem value={"g"}>gram</MenuItem>
-                  <MenuItem value={"dkg"}>decagram</MenuItem>
-                  <MenuItem value={"kg"}>kilogram</MenuItem>
-                  <MenuItem value={"tbs"}>tablespoon</MenuItem>
-                  <MenuItem value={"tsp"}>teaspoon</MenuItem>
-                  <MenuItem value={"pinch"}>pinch</MenuItem>
-                  <MenuItem value={"l"}>liter</MenuItem>
-                  <MenuItem value={"dl"}>deciliter</MenuItem>
-                  <MenuItem value={"cl"}>centiliter</MenuItem>
-                  <MenuItem value={"ml"}>milliliter</MenuItem>
-                  <MenuItem value={"cup"}>cup</MenuItem>
-                  <MenuItem value={"cups"}>cups</MenuItem>
-                  <MenuItem value={"piece"}>piece</MenuItem>
-                  <MenuItem value={"pieces"}>pieces</MenuItem>
-                </Select>
-              </Box>
-              <IconButton
-                aria-label="add-ingredient"
-                size="medium"
-                disabled={!validIngredient}
-                onClick={() => {
-                  let ingrs = ingredients.concat({
-                    name: ingredientName,
-                    amount: ingredientAmount,
-                    unit: ingredientUnit,
-                  });
-                  setIngredients(ingrs);
-                }}
-              >
-                <AddCircleRoundedIcon id="add-icon" fontSize="large" />
-              </IconButton>
-            </Box>
+            <IngredientInput
+              ingredients={ingredients}
+              setIngredients={setIngredients}
+            />
           </Box>
           <Box className="textfield-container" id="description-container">
             <h3>Description:</h3>
