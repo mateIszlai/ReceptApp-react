@@ -64,9 +64,16 @@ export default function AddRecipe() {
       recipeName.length > 0 &&
         ingredients.length > 0 &&
         description.length > 0 &&
+        smallDescription.length > 0 &&
         servings > 0
     );
-  }, [description.length, ingredients.length, recipeName.length, servings]);
+  }, [
+    description.length,
+    ingredients.length,
+    recipeName.length,
+    servings,
+    smallDescription.length,
+  ]);
 
   return !user.loggedIn ? (
     <Fragment>
@@ -77,8 +84,11 @@ export default function AddRecipe() {
       <div className="add-recipe-page-container">
         <h1>Add a new recipe</h1>
         <form noValidate autoComplete="off">
-          <NameInput setRecipeName={setRecipeName} />
-          <SmallDescriptionInput setSmallDescription={setSmallDescription} />
+          <NameInput setRecipeName={setRecipeName} required={true} />
+          <SmallDescriptionInput
+            setSmallDescription={setSmallDescription}
+            required={true}
+          />
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
             <IngredientList
@@ -101,7 +111,11 @@ export default function AddRecipe() {
               setDescription={setDescription}
             />
           </Box>
-          <ServingsInput servings={servings} setServings={setServings} />
+          <ServingsInput
+            servings={servings}
+            setServings={setServings}
+            required={true}
+          />
           <PreparationTimeInput
             setPreparationTimeAmount={setPreparationTimeAmount}
             preparationTimeUnit={preparationTimeUnit}

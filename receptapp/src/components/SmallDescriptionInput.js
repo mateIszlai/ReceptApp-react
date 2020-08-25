@@ -10,7 +10,7 @@ export default function SmallDescriptionInput(props) {
           id="small-description-input"
           variant="outlined"
           label="Small description"
-          required
+          required={props.required}
           onChange={(e) => {
             props.setSmallDescription(e.target.value);
           }}

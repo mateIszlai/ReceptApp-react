@@ -10,7 +10,7 @@ export default function NameInput(props) {
           id="name-input"
           variant="outlined"
           label="Name of the recipe"
-          required
+          required={props.required}
           onChange={(e) => {
             props.setRecipeName(e.target.value);
           }}

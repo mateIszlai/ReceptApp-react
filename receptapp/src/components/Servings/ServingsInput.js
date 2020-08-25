@@ -10,7 +10,7 @@ export default function ServingsInput(props) {
           id="servings-input"
           variant="outlined"
           label="Servings"
-          required
+          required={props.required}
           type="number"
           onChange={(e) => {
             props.setServings(e.target.valueAsNumber);

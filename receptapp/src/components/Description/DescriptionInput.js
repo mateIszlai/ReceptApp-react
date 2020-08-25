@@ -14,7 +14,6 @@ export default function DescriptionInput(props) {
             id="description-input"
             variant="outlined"
             label=" Description"
-            required
             multiline
             onChange={(e) => {
               setRecipeDescription(e.target.value);

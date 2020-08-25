@@ -97,11 +97,14 @@ export default function EditRecipe() {
         <form noValidate autoComplete="off">
           <Box className="edit-container">
             <Box>Recipe name: {oldRecipeName}</Box>
-            <NameInput setRecipeName={setRecipeName} />
+            <NameInput setRecipeName={setRecipeName} required={false} />
           </Box>
           <Box className="edit-container">
             <Box>Small Description: {oldSmallDescription}</Box>
-            <SmallDescriptionInput setSmallDescription={setSmallDescription} />
+            <SmallDescriptionInput
+              setSmallDescription={setSmallDescription}
+              required={false}
+            />
           </Box>
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
@@ -127,7 +130,11 @@ export default function EditRecipe() {
           </Box>
           <Box className="edit-container">
             <Box>Servings: {oldServings}</Box>
-            <ServingsInput servings={servings} setServings={setServings} />
+            <ServingsInput
+              servings={servings}
+              setServings={setServings}
+              required={false}
+            />
           </Box>
           <Box className="edit-container">
             <Box>Preparation time: {oldPreparationTime}</Box>
