@@ -67,7 +67,7 @@ export default function Navigation() {
             </li>
             <li>
               <div className="link-wrapper">
-                <NavLink to={"/recipes/5/edit"} exact>
+                <NavLink to={"/recipes/8/edit"} exact>
                   Edit recipe
                 </NavLink>
               </div>

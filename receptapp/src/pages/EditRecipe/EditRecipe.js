@@ -12,6 +12,7 @@ import PreparationTimeInput from "../../components/TimeInputs/PreparationTimeInp
 import CookTimeInput from "../../components/TimeInputs/CookTimeInput";
 import AdditionalTimeInput from "../../components/TimeInputs/AdditionalTimeInput";
 import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
+import SmallDescriptionInput from "../../components/SmallDescriptionInput";
 
 export default function EditRecipe() {
   const { recipeId } = useParams();
@@ -25,12 +26,14 @@ export default function EditRecipe() {
   const [cookTimeUnit, setCookTimeUnit] = useState("");
   const [additionalTimeAmount, setAdditionalTimeAmount] = useState(0.0);
   const [additionalTimeUnit, setAdditionalTimeUnit] = useState("");
+  const [smallDescription, setSmallDescription] = useState("");
   const [show, setShow] = useState(false);
 
   const tryEditRecipe = () => {
     axios
       .put(`/Recipes/${recipeId}`, {
         name: recipeName,
+        smallDescription: smallDescription,
         description: description,
         preparationTimeAmount: preparationTimeAmount,
         preparationTimeUnit: preparationTimeUnit,
@@ -52,6 +55,13 @@ export default function EditRecipe() {
       setIngredients(response.data.ingredients);
       setDescription(response.data.description);
       setServings(response.data.servings);
+      setSmallDescription(response.data.smallDescription);
+      setPreparationTimeAmount(response.data.preparationTimeAmount);
+      setPreparationTimeUnit(response.data.preparationTimeUnit);
+      setCookTimeAmount(response.data.cookTimeAmount);
+      setCookTimeUnit(response.data.cookTimeUnit);
+      setAdditionalTimeAmount(response.data.additionalTimeAmount);
+      setAdditionalTimeUnit(response.data.additionalTimeUnit);
     });
   }, [recipeId]);
 
@@ -63,6 +73,10 @@ export default function EditRecipe() {
           <Box className="edit-container">
             <Box>Recipe name: {recipeName}</Box>
             <NameInput setRecipeName={setRecipeName} />
+          </Box>
+          <Box className="edit-container">
+            <Box>Small Description: {smallDescription}</Box>
+            <SmallDescriptionInput setSmallDescription={setSmallDescription} />
           </Box>
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>

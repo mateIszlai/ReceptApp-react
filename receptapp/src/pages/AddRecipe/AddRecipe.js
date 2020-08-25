@@ -13,6 +13,7 @@ import PreparationTimeInput from "../../components/TimeInputs/PreparationTimeInp
 import CookTimeInput from "../../components/TimeInputs/CookTimeInput";
 import AdditionalTimeInput from "../../components/TimeInputs/AdditionalTimeInput";
 import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
+import SmallDescriptionInput from "../../components/SmallDescriptionInput";
 
 export default function AddRecipe() {
   const [recipeName, setRecipeName] = useState("");
@@ -29,12 +30,14 @@ export default function AddRecipe() {
   const [formValid, setFormValid] = useState(false);
   const [show, setShow] = useState(false);
   const [recipeId, setRecipeId] = useState("");
+  const [smallDescription, setSmallDescription] = useState("");
   const user = useContext(UserContext)[0];
 
   const tryAddRecipe = () => {
     axios
       .post("/Recipes", {
         name: recipeName,
+        smallDescription: smallDescription,
         description: description,
         preparationTimeAmount: preparationTimeAmount,
         preparationTimeUnit: preparationTimeUnit,
@@ -75,6 +78,7 @@ export default function AddRecipe() {
         <h1>Add a new recipe</h1>
         <form noValidate autoComplete="off">
           <NameInput setRecipeName={setRecipeName} />
+          <SmallDescriptionInput setSmallDescription={setSmallDescription} />
           <Box className="textfield-container ingredients-container">
             <h3>Ingredients:</h3>
             <IngredientList
@@ -119,6 +123,7 @@ export default function AddRecipe() {
               id="add-recipe-btn"
               onClick={tryAddRecipe}
               disabled={!formValid}
+              color="primary"
             >
               Add recipe
             </Button>
