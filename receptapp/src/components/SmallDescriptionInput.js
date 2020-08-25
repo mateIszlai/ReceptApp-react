@@ -1,18 +1,18 @@
 import React, { Fragment } from "react";
 import { Box, TextField } from "@material-ui/core";
 
-export default function NameInput(props) {
+export default function SmallDescriptionInput(props) {
   return (
     <Fragment>
       <Box className="textfield-container">
         <TextField
           className="textfield"
-          id="name-input"
+          id="small-description-input"
           variant="outlined"
-          label="Name of the recipe"
+          label="Small description"
           required={props.required}
           onChange={(e) => {
-            props.setRecipeName(e.target.value);
+            props.setSmallDescription(e.target.value);
           }}
         />
       </Box>
