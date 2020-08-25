@@ -22,6 +22,7 @@ export default function MessageNavDialog(props) {
               variant="contained"
               className="dialog-close-btn"
               onClick={() => props.setShow(false)}
+              color="primary"
             >
               Close
             </Button>
