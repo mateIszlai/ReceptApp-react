@@ -1,16 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-import {
-  TextField,
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogActions,
-} from "@material-ui/core";
+import { TextField, Box, Button } from "@material-ui/core";
 import axios from "../../axios/axios";
 import "./Register.css";
 import emailValidator from "email-validator";
-import { NavLink, useHistory } from "react-router-dom";
+import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
 
 export default function Register() {
   const [userName, setUserName] = useState("");
@@ -24,8 +17,6 @@ export default function Register() {
   const [nickName, setNickName] = useState("");
   const [show, setShow] = useState(false);
   const [valid, setValid] = useState(false);
-
-  const history = useHistory();
 
   const tryRegister = () => {
     axios
@@ -185,30 +176,12 @@ export default function Register() {
           </Box>
         </form>
       </div>
-      <Dialog
-        onClose={() => {
-          setShow(false);
-          history.push("/");
-        }}
-        aria-labelledby="add-dialog-title"
-        open={show}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="add-dialog-title">
-          You registered successfully
-        </DialogTitle>
-        <DialogActions>
-          <NavLink to={"/"} exact>
-            <Button
-              className="dialog-close-btn"
-              color="primary"
-              onClick={() => setShow(false)}
-            >
-              Close
-            </Button>
-          </NavLink>
-        </DialogActions>
-      </Dialog>
+      <MessageNavDialog
+        show={show}
+        setShow={setShow}
+        message="You registered successfully"
+        url="/"
+      />
     </Fragment>
   );
 }
