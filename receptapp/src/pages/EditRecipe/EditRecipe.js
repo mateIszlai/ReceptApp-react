@@ -165,6 +165,7 @@ export default function EditRecipe() {
               variant="contained"
               id="edit-recipe-btn"
               onClick={tryEditRecipe}
+              disabled={description.length === 0 || ingredients.length === 0}
               color="primary"
             >
               Edit recipe
