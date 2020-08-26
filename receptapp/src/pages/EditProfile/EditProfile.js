@@ -13,6 +13,8 @@ import emailValidator from "email-validator";
 import { useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
 import "./EditProfile.css";
+import MessageDialog from "../../components/Dialogs/MessageDialog";
+import DeleteDialog from "../../components/Dialogs/DeleteDialog";
 
 export default function EditProfile() {
   const [firstName, setFirstName] = useState("");
@@ -296,70 +298,22 @@ export default function EditProfile() {
           </Button>
         </Box>
       </div>
-      <Dialog
-        onClose={() => setDataChangeShow(false)}
-        aria-labelledby="modify-dialog-title"
-        open={dataChangeShow}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="modify-dialog-title">
-          Your changes saved successfully
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            className="dialog-close-btn"
-            color="primary"
-            onClick={() => setDataChangeShow(false)}
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        onClose={() => setPasswordChangeShow(false)}
-        aria-labelledby="modify-dialog-title"
-        open={passwordChangeShow}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="modify-dialog-title">
-          Your password changed successfully
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            className="dialog-close-btn"
-            color="primary"
-            onClick={() => setPasswordChangeShow(false)}
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-        onClose={() => setDeleteProfileShow(false)}
-        aria-labelledby="delete-dialog-title"
-        open={deleteProfileShow}
-        className="navigation-dialog"
-      >
-        <DialogTitle id="delete-dialog-title">
-          Are you sure you want to delete your profile?
-        </DialogTitle>
-        <DialogActions>
-          <Button
-            className="dialog-close-btn"
-            color="primary"
-            onClick={() => setDeleteProfileShow(false)}
-          >
-            Close
-          </Button>
-          <Button
-            id="dialog-delete-btn"
-            color="secondary"
-            onClick={tryDeleteAccount}
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <MessageDialog
+        show={dataChangeShow}
+        setShow={setDataChangeShow}
+        message="Your changes saved successfully"
+      />
+      <MessageDialog
+        show={passwordChangeShow}
+        setShow={setPasswordChangeShow}
+        message="Your password changed successfully"
+      />
+      <DeleteDialog
+        show={deleteProfileShow}
+        setShow={setDeleteProfileShow}
+        toDelete="your profile"
+        tryDelete={tryDeleteAccount}
+      />
       <Dialog
         onClose={() => {
           setDeleteSuccessShow(false);
