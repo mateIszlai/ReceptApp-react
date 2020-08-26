@@ -15,6 +15,8 @@ import MessageNavDialog from "../../components/Dialogs/MessageNavDialog";
 import SmallDescriptionInput from "../../components/SmallDescriptionInput";
 import "./EditRecipe.css";
 import { UserContext } from "../../context/UserContext";
+import { DropzoneDialog } from "material-ui-dropzone";
+import DeleteDialog from "../../components/Dialogs/DeleteDialog";
 
 export default function EditRecipe() {
   const { recipeId } = useParams();
@@ -35,6 +37,11 @@ export default function EditRecipe() {
   const [oldAdditionalTime, setOldAdditionalTime] = useState("");
   const [smallDescription, setSmallDescription] = useState("");
   const [oldSmallDescription, setOldSmallDescription] = useState("");
+  const [mainPicture, setMainPicture] = useState(null);
+  const [mainPictureUploadOpen, setMainPictureUploadOpen] = useState(false);
+  const [uploadSuccessOpen, setUploadSuccessOpen] = useState(false);
+  const [deleteRecipeShow, setDeleteRecipeShow] = useState(false);
+  const [deleteSuccessShow, setDeleteSuccessShow] = useState(false);
   const [show, setShow] = useState(false);
   const user = useContext(UserContext)[0];
 
@@ -56,6 +63,27 @@ export default function EditRecipe() {
       .then((response) => {
         if (response.status === 204) setShow(true);
       });
+  };
+
+  const tryUploadMainImage = (files) => {
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("recipeId", recipeId);
+    data.append("fileName", files[0].name);
+    axios.post("/Images", data).then((response) => {
+      if (response.status === 200) {
+        uploadSuccessOpen(true);
+      }
+    });
+    setMainPictureUploadOpen(false);
+  };
+
+  const tryDelete = () => {
+    axios.delete(`/Recipes/${recipeId}`).then((response) => {
+      if (response.status === 200) {
+        setDeleteSuccessShow(true);
+      }
+    });
   };
 
   useEffect(() => {
@@ -83,6 +111,7 @@ export default function EditRecipe() {
       setOldAdditionalTime(
         `${response.data.additionalTimeAmount} ${response.data.additionalTimeUnit}`
       );
+      setMainPicture(response.data.mainPicture);
     });
   }, [recipeId]);
 
@@ -172,11 +201,61 @@ export default function EditRecipe() {
             </Button>
           </Box>
         </form>
+        <Box className="btn-container">
+          <Button
+            variant="contained"
+            id="add-main-image-btn"
+            disabled={mainPicture !== null}
+            color="primary"
+            onClick={() => setMainPictureUploadOpen(true)}
+          >
+            Upload Main Image
+          </Button>
+        </Box>
+        <Box className="btn-container">
+          <Button
+            variant="contained"
+            id="delete-recipe-btn"
+            onClick={() => setDeleteRecipeShow(true)}
+            color="secondary"
+          >
+            Delete recipe
+          </Button>
+        </Box>
         <MessageNavDialog
           show={show}
           setShow={setShow}
           url={`/recipes/${recipeId}`}
           message="Your recipe has been edited successfully"
+        />
+        <MessageNavDialog
+          show={uploadSuccessOpen}
+          setShow={setUploadSuccessOpen}
+          url={`/recipes/${recipeId}`}
+          message="Your picture has been added successfully"
+        />
+        <DeleteDialog
+          show={deleteRecipeShow}
+          setShow={setDeleteRecipeShow}
+          toDelete="this recipe"
+          tryDelete={tryDelete}
+        />
+        <MessageNavDialog
+          show={deleteSuccessShow}
+          setShow={setDeleteSuccessShow}
+          url="/recipes"
+          message="The recipe deleted successfully"
+        />
+        <DropzoneDialog
+          acceptedFiles={["image/png", "image/jpg", "image/bmp", "image/jpeg"]}
+          cancelButtonText={"cancel"}
+          submitButtonText={"submit"}
+          maxFileSize={5000000}
+          open={mainPictureUploadOpen}
+          onClose={() => setMainPictureUploadOpen(false)}
+          onSave={tryUploadMainImage}
+          showPreviews={true}
+          showFileNamesInPreview={true}
         />
       </div>
     </Fragment>
