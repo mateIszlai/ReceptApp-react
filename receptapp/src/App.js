@@ -13,6 +13,7 @@ import EditProfile from "./pages/EditProfile/EditProfile";
 import Profile from "./pages/Profile/Profile";
 import EditRecipe from "./pages/EditRecipe/EditRecipe";
 import AllRecipes from "./pages/Recipes/AllRecipes";
+import Recipe from "./pages/Recipe/Recipe";
 
 function App(props) {
   return (
@@ -35,6 +36,7 @@ function Content() {
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout} />
           <Route path="/recipes" exact component={AllRecipes} />
+          <Route path="/recipes/:recipeId" exact component={Recipe} />
           <Route path="/recipes/:recipeId/edit" exact component={EditRecipe} />
           <Route path="/recipes/add" exact component={AddRecipe} />
           <Route path="/profile/:username" exact component={Profile} />
