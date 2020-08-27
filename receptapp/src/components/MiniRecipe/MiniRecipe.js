@@ -6,11 +6,13 @@ export default function MiniRecipe(props) {
   return (
     <Fragment>
       <Card className="minirecipe-card">
-        <CardMedia
-          className="minirecipe-main-picture"
-          title={props.name}
-          src={{ uri: image }}
-        />
+        {props.mainPicture ? (
+          <CardMedia
+            className="minirecipe-main-picture"
+            title={props.name}
+            src={{ uri: image }}
+          />
+        ) : null}
         <CardContent>
           <p>{props.name}</p>
         </CardContent>
